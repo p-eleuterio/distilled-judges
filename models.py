@@ -4,16 +4,16 @@ from dotenv import load_dotenv
 import os
 import torch
 
-# Step 1: Load environment variables from .env file
+#Load environment variables from .env file
 load_dotenv()
 
-# Step 2: Authenticate with Hugging Face
+#Authenticate with Hugging Face
 huggingface_token = os.getenv("HUGGINGFACE_TOKEN")
 if not huggingface_token:
     raise ValueError("HUGGINGFACE_TOKEN not found in .env file. Please add it.")
 login(token=huggingface_token)
 
-# Step 3: Load Falcon-7B model and tokenizer
+#Load Falcon-7B model and tokenizer
 model_name = "tiiuae/falcon-7b"  # Open-access model
 tokenizer = AutoTokenizer.from_pretrained(model_name)
 model = AutoModelForCausalLM.from_pretrained(
@@ -36,7 +36,7 @@ def extract_text(file_path):
     except Exception as e:
         return f"An error occurred: {e}"
 
-# Step 4: Define the prompt template
+#Define the prompt template
 def create_prompt(text, rules_path):
     rules = extract_text(rules_path)  # Load rules from a file or define them directly
     return f"""
@@ -57,7 +57,7 @@ def create_prompt(text, rules_path):
     Explanation: The text was classified as non-compliant because it contains personal information, which violates Rule 2 of the forum's guidelines. The mention of identifiable details about another user is a clear breach of privacy guidelines.
     """
 
-# Step 5: Parse the output
+#Parse the output
 def parse_output(output):
     # Split the output into classification and explanation
     lines = output.split("\n")
@@ -81,7 +81,7 @@ def parse_output(output):
         "explanation": explanation,
     }
 
-# Step 6: Generate classification and explanation
+#Generate classification and explanation
 def evaluate_text(text, rules_path):
     # Create the prompt
     prompt = create_prompt(text, rules_path)
@@ -104,7 +104,7 @@ def evaluate_text(text, rules_path):
     print("Raw Output:", output)  # Debugging: Print the raw output
     return parse_output(output)
 
-# Step 7: Test the system
+#Test the system
 if __name__ == "__main__":
     # Example text to evaluate
     text = "This post contains personal information about another user."

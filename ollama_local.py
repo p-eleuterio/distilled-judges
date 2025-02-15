@@ -1,12 +1,19 @@
 import ollama
 from dotenv import load_dotenv
 import os
+from datetime import datetime
 
 # Step 1: Load environment variables from .env file
 load_dotenv()
 
 # Path to the rules file
 rules_path = "rules.txt"
+
+# Path to the output folder
+output_folder = "output"  # Folder where responses will be saved
+
+# Ensure the output folder exists
+os.makedirs(output_folder, exist_ok=True)
 
 # Function to extract text from a file
 def extract_text(file_path):
@@ -80,15 +87,40 @@ def evaluate_text(text, rules_path):
     print("Raw Output:", output)  # Debugging: Print the raw output
     return parse_output(output)
 
-# Step 5: Test the system
+# Step 5: Function to ask for user input
+def get_user_input():
+    print("Enter the text you want to evaluate (press Enter when done):")
+    user_input = input()  # Read input from the console
+    return user_input
+
+# Step 6: Function to save the response to a file
+def save_response(text, result, output_folder):
+    # Generate a unique filename using the current timestamp
+    timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+    filename = f"response_{timestamp}.txt"
+    filepath = os.path.join(output_folder, filename)
+
+    # Write the response to the file
+    with open(filepath, "w", encoding="utf-8") as file:
+        file.write(f"Text: {text}\n")
+        file.write(f"Classification: {result['classification']}\n")
+        file.write(f"Explanation: {result['explanation']}\n")
+
+    print(f"Response saved to: {filepath}")
+
+# Step 7: Test the system
 if __name__ == "__main__":
-    # Example text to evaluate
-    text = "This post contains personal information about another user."
+    # Ask the user for input
+    text = get_user_input()
 
     # Evaluate the text
     result = evaluate_text(text, rules_path)
 
     # Print the results
+    print("\nResults:")
     print("Text:", text)
     print("Classification:", result["classification"])
     print("Explanation:", result["explanation"])
+
+    # Save the response to a file
+    save_response(text, result, output_folder)
