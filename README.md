@@ -1,37 +1,29 @@
-Some considerations:
-Try to run this script with hugging face 
-accelerate config
-accelerate launch your_script.py
-to handle memory usage
------------------------
 
-What the Script Does
-The script is designed to:
+# Project Design
+### The script is designed to:
 
-Classify whether a given text complies with the rules of a Reddit forum.
+- Classify whether a given text complies with the rules of a Reddit forum.
 
-Explain the reasoning behind the classification using a Large Language Model (LLM) like Mistral-7B or LLaMA-2.
+- Explain the reasoning behind the classification using a Large Language Model (LLM) like Mistral-7B or LLaMA-2.
 
-It combines classification and explanation into a single pipeline, leveraging the power of an LLM to provide human-like reasoning for its decisions.
+- It combines classification and explanation into a single pipeline, leveraging the power of an LLM to provide human-like reasoning for its decisions.
 
-Key Features
-Authentication: Uses your Hugging Face API key to access gated models (e.g., Mistral-7B).
+## Key Features
+-  Authentication: Uses your Hugging Face API key to access gated models (e.g., Mistral-7B).
 
-Prompt Engineering: Constructs a detailed prompt to guide the LLM in classifying and explaining the text.
+-  Prompt Engineering: Constructs a detailed prompt to guide the LLM in classifying and explaining the text.
 
-Model Loading: Loads a pre-trained LLM (e.g., Mistral-7B or LLaMA-2) for text generation.
+- Model Loading: Loads a pre-trained LLM (e.g., Mistral-7B or LLaMA-2) for text generation.
 
-Output Parsing: Extracts the classification and explanation from the LLM's response.
+- Output Parsing: Extracts the classification and explanation from the LLM's response.
 
-How to Use the Script
+## How to Use the Script
 1. Prerequisites
 Python Environment: Ensure you have Python 3.8+ installed.
 
-Libraries: Install the required libraries:
+2. Libraries: use the requierements.txt to install the libraries
 
-$pip install transformers huggingface_hub python-dotenv
-Hugging Face Account: Create an account on Hugging Face.
-API Token: Generate a Hugging Face API token from your account settings.
+pip install -r requirements.txt
 
 2. Set Up the .env File
 Create a .env file in the same directory as the script and add your Hugging Face API token:
@@ -43,7 +35,14 @@ Save the script to a file, e.g., reddit_moderator.py, and run it:
 
 python reddit_moderator.py
 
-Script Workflow
+Yo may also try  to run this script with hugging face 
+accelerate config
+accelerate launch your_script.py
+to handle memory usage
+
+
+## Script Workflow
+
 --Load Environment Variables:
 The script reads your Hugging Face API token from the .env file.
 Authenticates with Hugging Face using the token.
